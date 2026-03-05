@@ -83,17 +83,28 @@ python discover.py --all
   主机地址:  localhost
   端口:      19530
 
-  发现 1 个 Collection:
+  发现 2 个 Collection:
 
-  ┌─ Collection: export_collection
-  │  描述: export test
-  │  主键字段: id
+  ┌─ Collection: document_vectors
+  │  描述: Document vector collection for semantic search
+  │  主键字段: doc_id
+  │  向量字段: vector  维度=256  类型=FLOAT_VECTOR
+  │  标量字段: doc_type (INT64)
+  │  索引类型: HNSW
+  │  度量类型: COSINE
+  │  索引参数: {'params': {'M': 16, 'efConstruction': 200}}
+  │  数据量:   2,000 条
+  └──────────────────────────────────────────────────
+
+  ┌─ Collection: product_embeddings
+  │  描述: Product embedding collection
+  │  主键字段: product_id
   │  向量字段: embedding  维度=128  类型=FLOAT_VECTOR
-  │  标量字段: category
+  │  标量字段: category (INT64), tag (VARCHAR)
   │  索引类型: IVF_FLAT
   │  度量类型: L2
   │  索引参数: {'params': {'nlist': 128}}
-  │  数据量:   10,000 条
+  │  数据量:   5,000 条
   └──────────────────────────────────────────────────
 
 ================================================================
@@ -102,14 +113,21 @@ python discover.py --all
   主机地址:  localhost
   端口:      6333
 
-  发现 1 个 Collection:
+  发现 2 个 Collection:
 
-  ┌─ Collection: export_collection
-  │  向量维度:  128
-  │  度量类型:  EUCLID
-  │  数据量:   10,000 条
+  ┌─ Collection: image_features
+  │  向量字段: (默认)  维度=512  度量=COSINE
+  │  数据量:   3,000 条
   │  索引状态: GREEN
-  │  Payload 字段: category (int)
+  │  Payload 字段: label (str), width (int), height (int)
+  │  HNSW 参数: m=16, ef_construct=100
+  └──────────────────────────────────────────────────
+
+  ┌─ Collection: user_profiles
+  │  向量字段: (默认)  维度=128  度量=EUCLID
+  │  数据量:   5,000 条
+  │  索引状态: GREEN
+  │  Payload 字段: category (int), tag (str), score (float)
   │  HNSW 参数: m=16, ef_construct=100
   └──────────────────────────────────────────────────
 ```
