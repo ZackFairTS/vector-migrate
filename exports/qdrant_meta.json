@@ -1,0 +1,11 @@
+{
+  "source": "qdrant",
+  "dim": 128,
+  "metric_type": "Euclid",
+  "count": 10000,
+  "fields": [
+    "id (int)",
+    "category (int, payload)",
+    "embedding (float32 vector)"
+  ]
+}

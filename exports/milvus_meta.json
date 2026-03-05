@@ -1,0 +1,15 @@
+{
+  "source": "milvus",
+  "dim": 128,
+  "metric_type": "L2",
+  "count": 10000,
+  "fields": [
+    "id (INT64, PK)",
+    "category (INT64)",
+    "embedding (FLOAT_VECTOR)"
+  ],
+  "index": {
+    "type": "IVF_FLAT",
+    "nlist": 128
+  }
+}
