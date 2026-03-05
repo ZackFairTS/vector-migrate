@@ -69,12 +69,16 @@ def discover_milvus(host: str, port: str):
                 vector_fields.append({"name": field.name, "dim": dim, "dtype": field.dtype.name})
             else:
                 if not field.is_primary:
-                    scalar_fields.append(field.name)
+                    scalar_fields.append({"name": field.name, "dtype": field.dtype.name})
 
         print(f"  │  主键字段: {pk_field}")
         for vf in vector_fields:
             print(f"  │  向量字段: {vf['name']}  维度={vf['dim']}  类型={vf['dtype']}")
-        print(f"  │  标量字段: {', '.join(scalar_fields) if scalar_fields else '(无)'}")
+        if scalar_fields:
+            scalar_str = ", ".join(f"{sf['name']} ({sf['dtype']})" for sf in scalar_fields)
+            print(f"  │  标量字段: {scalar_str}")
+        else:
+            print(f"  │  标量字段: (无)")
 
         # 索引和度量类型
         for vf in vector_fields:
@@ -148,9 +152,8 @@ def discover_qdrant(host: str, port: int):
         # 向量配置
         vectors_config = info.config.params.vectors
         if hasattr(vectors_config, "size"):
-            # 单向量配置
-            print(f"  │  向量维度:  {vectors_config.size}")
-            print(f"  │  度量类型:  {vectors_config.distance.name}")
+            # 单向量配置（默认向量字段，无命名）
+            print(f"  │  向量字段: (默认)  维度={vectors_config.size}  度量={vectors_config.distance.name}")
         elif isinstance(vectors_config, dict):
             # 命名向量配置
             for vec_name, vec_params in vectors_config.items():
